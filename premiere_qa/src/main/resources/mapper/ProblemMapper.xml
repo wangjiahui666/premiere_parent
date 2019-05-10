@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.premiere.mapper.ProblemMapper" >
+  <resultMap id="BaseResultMap" type="com.premiere.pojo.Problem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="visits" property="visits" jdbcType="BIGINT" />
+    <result column="thumbup" property="thumbup" jdbcType="BIGINT" />
+    <result column="reply" property="reply" jdbcType="BIGINT" />
+    <result column="solve" property="solve" jdbcType="VARCHAR" />
+    <result column="replyname" property="replyname" jdbcType="VARCHAR" />
+    <result column="replytime" property="replytime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.premiere.pojo.Problem" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, title, createtime, updatetime, userid, nickname, visits, thumbup, reply, solve, 
+    replyname, replytime
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.premiere.pojo.ProblemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_problem
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.premiere.pojo.ProblemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_problem
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_problem
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_problem
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.premiere.pojo.ProblemExample" >
+    delete from tb_problem
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.premiere.pojo.Problem" >
+    insert into tb_problem (id, title, createtime, 
+      updatetime, userid, nickname, 
+      visits, thumbup, reply, 
+      solve, replyname, replytime, 
+      content)
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{userid,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{visits,jdbcType=BIGINT}, #{thumbup,jdbcType=BIGINT}, #{reply,jdbcType=BIGINT}, 
+      #{solve,jdbcType=VARCHAR}, #{replyname,jdbcType=VARCHAR}, #{replytime,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.premiere.pojo.Problem" >
+    insert into tb_problem
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="visits != null" >
+        visits,
+      </if>
+      <if test="thumbup != null" >
+        thumbup,
+      </if>
+      <if test="reply != null" >
+        reply,
+      </if>
+      <if test="solve != null" >
+        solve,
+      </if>
+      <if test="replyname != null" >
+        replyname,
+      </if>
+      <if test="replytime != null" >
+        replytime,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="visits != null" >
+        #{visits,jdbcType=BIGINT},
+      </if>
+      <if test="thumbup != null" >
+        #{thumbup,jdbcType=BIGINT},
+      </if>
+      <if test="reply != null" >
+        #{reply,jdbcType=BIGINT},
+      </if>
+      <if test="solve != null" >
+        #{solve,jdbcType=VARCHAR},
+      </if>
+      <if test="replyname != null" >
+        #{replyname,jdbcType=VARCHAR},
+      </if>
+      <if test="replytime != null" >
+        #{replytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.premiere.pojo.ProblemExample" resultType="java.lang.Integer" >
+    select count(*) from tb_problem
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_problem
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userid != null" >
+        userid = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickname != null" >
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.visits != null" >
+        visits = #{record.visits,jdbcType=BIGINT},
+      </if>
+      <if test="record.thumbup != null" >
+        thumbup = #{record.thumbup,jdbcType=BIGINT},
+      </if>
+      <if test="record.reply != null" >
+        reply = #{record.reply,jdbcType=BIGINT},
+      </if>
+      <if test="record.solve != null" >
+        solve = #{record.solve,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyname != null" >
+        replyname = #{record.replyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replytime != null" >
+        replytime = #{record.replytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update tb_problem
+    set id = #{record.id,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      userid = #{record.userid,jdbcType=VARCHAR},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      visits = #{record.visits,jdbcType=BIGINT},
+      thumbup = #{record.thumbup,jdbcType=BIGINT},
+      reply = #{record.reply,jdbcType=BIGINT},
+      solve = #{record.solve,jdbcType=VARCHAR},
+      replyname = #{record.replyname,jdbcType=VARCHAR},
+      replytime = #{record.replytime,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_problem
+    set id = #{record.id,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      userid = #{record.userid,jdbcType=VARCHAR},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      visits = #{record.visits,jdbcType=BIGINT},
+      thumbup = #{record.thumbup,jdbcType=BIGINT},
+      reply = #{record.reply,jdbcType=BIGINT},
+      solve = #{record.solve,jdbcType=VARCHAR},
+      replyname = #{record.replyname,jdbcType=VARCHAR},
+      replytime = #{record.replytime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.premiere.pojo.Problem" >
+    update tb_problem
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="visits != null" >
+        visits = #{visits,jdbcType=BIGINT},
+      </if>
+      <if test="thumbup != null" >
+        thumbup = #{thumbup,jdbcType=BIGINT},
+      </if>
+      <if test="reply != null" >
+        reply = #{reply,jdbcType=BIGINT},
+      </if>
+      <if test="solve != null" >
+        solve = #{solve,jdbcType=VARCHAR},
+      </if>
+      <if test="replyname != null" >
+        replyname = #{replyname,jdbcType=VARCHAR},
+      </if>
+      <if test="replytime != null" >
+        replytime = #{replytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.premiere.pojo.Problem" >
+    update tb_problem
+    set title = #{title,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      userid = #{userid,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      visits = #{visits,jdbcType=BIGINT},
+      thumbup = #{thumbup,jdbcType=BIGINT},
+      reply = #{reply,jdbcType=BIGINT},
+      solve = #{solve,jdbcType=VARCHAR},
+      replyname = #{replyname,jdbcType=VARCHAR},
+      replytime = #{replytime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.premiere.pojo.Problem" >
+    update tb_problem
+    set title = #{title,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      userid = #{userid,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      visits = #{visits,jdbcType=BIGINT},
+      thumbup = #{thumbup,jdbcType=BIGINT},
+      reply = #{reply,jdbcType=BIGINT},
+      solve = #{solve,jdbcType=VARCHAR},
+      replyname = #{replyname,jdbcType=VARCHAR},
+      replytime = #{replytime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

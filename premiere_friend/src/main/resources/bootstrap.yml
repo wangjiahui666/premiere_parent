@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    config:
+      uri: http://premiere.ltd:12000
+      name: friend
+      profile: dev
+      label: master

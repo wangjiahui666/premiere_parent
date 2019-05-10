@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.premiere.mapper.RecruitMapper">
+    <resultMap id="BaseResultMap" type="com.premiere.pojo.Recruit">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="jobname" jdbcType="VARCHAR" property="jobname"/>
+        <result column="salary" jdbcType="VARCHAR" property="salary"/>
+        <result column="condition" jdbcType="VARCHAR" property="condition"/>
+        <result column="education" jdbcType="VARCHAR" property="education"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="eid" jdbcType="VARCHAR" property="eid"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="state" jdbcType="VARCHAR" property="state"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="label" jdbcType="VARCHAR" property="label"/>
+        <result column="content1" jdbcType="VARCHAR" property="content1"/>
+        <result column="content2" jdbcType="VARCHAR" property="content2"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, jobname, salary, condition, education, type, address, eid, createtime, state, 
+    url, label, content1, content2
+  </sql>
+    <select id="selectByExample" parameterType="com.premiere.pojo.RecruitExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from tb_recruit
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_recruit
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_recruit
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.premiere.pojo.RecruitExample">
+        delete from tb_recruit
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.premiere.pojo.Recruit">
+    insert into tb_recruit (id, jobname, salary, 
+      condition, education, type, 
+      address, eid, createtime, 
+      state, url, label, 
+      content1, content2)
+    values (#{id,jdbcType=VARCHAR}, #{jobname,jdbcType=VARCHAR}, #{salary,jdbcType=VARCHAR}, 
+      #{condition,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{eid,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, 
+      #{content1,jdbcType=VARCHAR}, #{content2,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.premiere.pojo.Recruit">
+        insert into tb_recruit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="jobname != null">
+                jobname,
+            </if>
+            <if test="salary != null">
+                salary,
+            </if>
+            <if test="condition != null">
+                condition,
+            </if>
+            <if test="education != null">
+                education,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="eid != null">
+                eid,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="label != null">
+                label,
+            </if>
+            <if test="content1 != null">
+                content1,
+            </if>
+            <if test="content2 != null">
+                content2,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="jobname != null">
+                #{jobname,jdbcType=VARCHAR},
+            </if>
+            <if test="salary != null">
+                #{salary,jdbcType=VARCHAR},
+            </if>
+            <if test="condition != null">
+                #{condition,jdbcType=VARCHAR},
+            </if>
+            <if test="education != null">
+                #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="eid != null">
+                #{eid,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="label != null">
+                #{label,jdbcType=VARCHAR},
+            </if>
+            <if test="content1 != null">
+                #{content1,jdbcType=VARCHAR},
+            </if>
+            <if test="content2 != null">
+                #{content2,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.premiere.pojo.RecruitExample" resultType="java.lang.Integer">
+        select count(*) from tb_recruit
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update tb_recruit
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jobname != null">
+                jobname = #{record.jobname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.salary != null">
+                salary = #{record.salary,jdbcType=VARCHAR},
+            </if>
+            <if test="record.condition != null">
+                condition = #{record.condition,jdbcType=VARCHAR},
+            </if>
+            <if test="record.education != null">
+                education = #{record.education,jdbcType=VARCHAR},
+            </if>
+            <if test="record.type != null">
+                type = #{record.type,jdbcType=VARCHAR},
+            </if>
+            <if test="record.address != null">
+                address = #{record.address,jdbcType=VARCHAR},
+            </if>
+            <if test="record.eid != null">
+                eid = #{record.eid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createtime != null">
+                createtime = #{record.createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.state != null">
+                state = #{record.state,jdbcType=VARCHAR},
+            </if>
+            <if test="record.url != null">
+                url = #{record.url,jdbcType=VARCHAR},
+            </if>
+            <if test="record.label != null">
+                label = #{record.label,jdbcType=VARCHAR},
+            </if>
+            <if test="record.content1 != null">
+                content1 = #{record.content1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.content2 != null">
+                content2 = #{record.content2,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update tb_recruit
+        set id = #{record.id,jdbcType=VARCHAR},
+        jobname = #{record.jobname,jdbcType=VARCHAR},
+        salary = #{record.salary,jdbcType=VARCHAR},
+        condition = #{record.condition,jdbcType=VARCHAR},
+        education = #{record.education,jdbcType=VARCHAR},
+        type = #{record.type,jdbcType=VARCHAR},
+        address = #{record.address,jdbcType=VARCHAR},
+        eid = #{record.eid,jdbcType=VARCHAR},
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+        state = #{record.state,jdbcType=VARCHAR},
+        url = #{record.url,jdbcType=VARCHAR},
+        label = #{record.label,jdbcType=VARCHAR},
+        content1 = #{record.content1,jdbcType=VARCHAR},
+        content2 = #{record.content2,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.premiere.pojo.Recruit">
+        update tb_recruit
+        <set>
+            <if test="jobname != null">
+                jobname = #{jobname,jdbcType=VARCHAR},
+            </if>
+            <if test="salary != null">
+                salary = #{salary,jdbcType=VARCHAR},
+            </if>
+            <if test="condition != null">
+                condition = #{condition,jdbcType=VARCHAR},
+            </if>
+            <if test="education != null">
+                education = #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="eid != null">
+                eid = #{eid,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="label != null">
+                label = #{label,jdbcType=VARCHAR},
+            </if>
+            <if test="content1 != null">
+                content1 = #{content1,jdbcType=VARCHAR},
+            </if>
+            <if test="content2 != null">
+                content2 = #{content2,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.premiere.pojo.Recruit">
+    update tb_recruit
+    set jobname = #{jobname,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=VARCHAR},
+      condition = #{condition,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      eid = #{eid,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      label = #{label,jdbcType=VARCHAR},
+      content1 = #{content1,jdbcType=VARCHAR},
+      content2 = #{content2,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
